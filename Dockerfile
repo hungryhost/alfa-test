@@ -5,8 +5,6 @@ RUN gradle build --no-daemon
 
 FROM openjdk:17-jdk-alpine
 
-EXPOSE 8095
-
 RUN mkdir /app
 
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/
