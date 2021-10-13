@@ -41,6 +41,7 @@ dependencyManagement {
 test {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
+	exclude 'org/yuiborodin/**'
 }
 
 asciidoctor {
