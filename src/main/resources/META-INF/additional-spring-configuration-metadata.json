@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "currency.base_currency",
+      "type": "java.lang.String",
+      "description": "Description for currency.base_currency."
+    },
+    {
+      "name": "currency.api_key",
+      "type": "java.lang.String",
+      "description": "Description for currency.api_key."
+    },
+    {
+      "name": "currency.base_url",
+      "type": "java.lang.String",
+      "description": "Description for currency.base_url."
+    }
+  ] }
