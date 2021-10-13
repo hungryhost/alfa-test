@@ -11,4 +11,4 @@ RUN mkdir /app
 
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/
 
-ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/alfa-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar","/app/alfa-0.0.1-SNAPSHOT.jar"]
