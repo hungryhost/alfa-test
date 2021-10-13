@@ -1,4 +1,4 @@
-# Сервис для получения информмации о курсе валют
+# Сервис для получения информации о курсе валют
 
 
 ### Задеплоен на https://projects.alfabank.yuryborodin.ru/api/v1/currencies/<ticker, напр. USD>/
