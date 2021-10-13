@@ -1,6 +1,5 @@
 package org.yuiborodin.alfa.currencies;
 
-import org.yuiborodin.alfa.utils.TypeUtils.ImageType;
 import feign.Feign;
 import feign.FeignException;
 import feign.gson.GsonDecoder;
@@ -9,11 +8,7 @@ import feign.okhttp.OkHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import org.yuiborodin.alfa.utils.TypeUtils.ImageType;
 
 import static org.yuiborodin.alfa.utils.DateUtils.getPreviousDate;
 
@@ -67,13 +62,12 @@ public class CurrencyService{
     }
     public ImageType compareRates(String currency){
         try {
-            previous_rate = getPreviousRate(currency);
             latest_rate = getLatestRate(currency);
-            //System.out.println(previous_rate);
-            //System.out.println(latest_rate);
+            previous_rate = getPreviousRate(currency);
+
         }
         catch (FeignException exception){
-
+            System.out.println(exception);
             return ImageType.error;
         }
         if (latest_rate == null || previous_rate == null){
