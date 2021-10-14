@@ -16,7 +16,14 @@ import static org.yuiborodin.alfa.utils.DateUtils.getPreviousDate;
 @Service
 public class CurrencyService{
 
-
+    public static CurrencyInterface getCurrencyFeignInterface(String base_url){
+        return Feign.builder()
+                .client(new OkHttpClient())
+                .encoder(new GsonEncoder())
+                .decoder(new GsonDecoder())
+                .contract(new SpringMvcContract())
+                .target(CurrencyInterface.class, base_url);
+    }
     @Value("${currency.base_url}")
     private String base_url;
 
@@ -31,12 +38,7 @@ public class CurrencyService{
     private Double previous_rate;
 
     private Double getLatestRate(String currency) {
-        this.newCurrencyInterface = Feign.builder()
-                .client(new OkHttpClient())
-                .encoder(new GsonEncoder())
-                .decoder(new GsonDecoder())
-                .contract(new SpringMvcContract())
-                .target(CurrencyInterface.class, base_url);
+        this.newCurrencyInterface = getCurrencyFeignInterface(this.base_url);
 
         Currency currencyClient = newCurrencyInterface.getLatestRecord(
                 api_key, base_currency, currency
@@ -47,12 +49,7 @@ public class CurrencyService{
 
     }
     private Double getPreviousRate(String currency) {
-        this.newCurrencyInterface = Feign.builder()
-                .client(new OkHttpClient())
-                .encoder(new GsonEncoder())
-                .decoder(new GsonDecoder())
-                .contract(new SpringMvcContract())
-                .target(CurrencyInterface.class, base_url);
+        this.newCurrencyInterface = getCurrencyFeignInterface(this.base_url);
 
         Currency currencyClient = newCurrencyInterface.getPreviousRecord(
                 getPreviousDate(),
@@ -94,3 +91,4 @@ public class CurrencyService{
         return previous_rate;
     }
 }
+
