@@ -1,5 +1,6 @@
 package org.yuiborodin.alfa.images;
 
+import feign.AsyncFeign;
 import feign.Feign;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
@@ -11,6 +12,8 @@ import org.yuiborodin.alfa.utils.TypeUtils;
 
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class ImageService {
@@ -26,9 +29,8 @@ public class ImageService {
 
     ImageInterface newImageInterface;
 
-    public String getImage(TypeUtils.ImageType imageType) {
-        this.newImageInterface = Feign.builder()
-                .client(new OkHttpClient())
+    public String getImage(TypeUtils.ImageType imageType) throws ExecutionException, InterruptedException {
+        this.newImageInterface = AsyncFeign.asyncBuilder()
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
                 .contract(new SpringMvcContract())
@@ -43,9 +45,10 @@ public class ImageService {
         } else if (imageType.equals(TypeUtils.ImageType.broke)) {
             this.type = "broke";
         } else return "fail";
-        ImageList imageList = newImageInterface.getLatestRecord(
+        CompletableFuture<ImageList> imageListRecord = newImageInterface.getLatestRecord(
                 api_key, type, String.valueOf(offset), limit, rating, lang
         );
+        ImageList imageList = imageListRecord.get();
         HashMap<String, ImageData> data = imageList.getData().get(0).getImages();
         return data.get("original").getUrl();
     }

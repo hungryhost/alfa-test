@@ -6,6 +6,8 @@ import org.yuiborodin.alfa.images.ImageService;
 import org.yuiborodin.alfa.utils.ImageResponse;
 import org.yuiborodin.alfa.utils.TypeUtils;
 
+import java.util.concurrent.ExecutionException;
+
 @RestController
 @RequestMapping(path="api/v1/currencies")
 public class CurrencyController {
@@ -19,7 +21,7 @@ public class CurrencyController {
 
     @GetMapping("{ticker}")
     @ResponseBody
-    ImageResponse getInfoByCurrency(@PathVariable String ticker) {
+    ImageResponse getInfoByCurrency(@PathVariable String ticker) throws ExecutionException, InterruptedException {
         TypeUtils.ImageType imageType = currencyService.compareRates(ticker);
         String image_result = imageService.getImage(imageType);
         if (image_result.equals("fail")){

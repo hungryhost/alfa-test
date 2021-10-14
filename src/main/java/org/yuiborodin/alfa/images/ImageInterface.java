@@ -5,12 +5,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.concurrent.CompletableFuture;
+
 
 @FeignClient(name = "imageInterface")
 public interface ImageInterface {
 
     @RequestMapping(method = RequestMethod.GET, value = "/v1/gifs/search")
-    ImageList getLatestRecord(
+    CompletableFuture<ImageList> getLatestRecord(
             @RequestParam String api_key,
             @RequestParam String q,
             @RequestParam String offset,

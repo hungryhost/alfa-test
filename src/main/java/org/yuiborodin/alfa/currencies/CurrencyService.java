@@ -1,5 +1,6 @@
 package org.yuiborodin.alfa.currencies;
 
+import feign.AsyncFeign;
 import feign.Feign;
 import feign.FeignException;
 import feign.gson.GsonDecoder;
@@ -10,6 +11,9 @@ import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.stereotype.Service;
 import org.yuiborodin.alfa.utils.TypeUtils.ImageType;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 import static org.yuiborodin.alfa.utils.DateUtils.getPreviousDate;
 
 
@@ -17,8 +21,7 @@ import static org.yuiborodin.alfa.utils.DateUtils.getPreviousDate;
 public class CurrencyService{
 
     public static CurrencyInterface getCurrencyFeignInterface(String base_url){
-        return Feign.builder()
-                .client(new OkHttpClient())
+        return AsyncFeign.asyncBuilder()
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
                 .contract(new SpringMvcContract())
@@ -37,25 +40,27 @@ public class CurrencyService{
     private Double latest_rate;
     private Double previous_rate;
 
-    private Double getLatestRate(String currency) {
+    private Double getLatestRate(String currency) throws ExecutionException, InterruptedException {
         this.newCurrencyInterface = getCurrencyFeignInterface(this.base_url);
 
-        Currency currencyClient = newCurrencyInterface.getLatestRecord(
+        CompletableFuture<Currency> currencyRecord = newCurrencyInterface.getLatestRecord(
                 api_key, base_currency, currency
         );
-        return currencyClient.getRates().get(currency);
+        Currency currencyInfo = currencyRecord.get();
+        return currencyInfo.getRates().get(currency);
 
 
 
     }
-    private Double getPreviousRate(String currency) {
+    private Double getPreviousRate(String currency) throws ExecutionException, InterruptedException {
         this.newCurrencyInterface = getCurrencyFeignInterface(this.base_url);
 
-        Currency currencyClient = newCurrencyInterface.getPreviousRecord(
+        CompletableFuture<Currency> currencyRecord = newCurrencyInterface.getPreviousRecord(
                 getPreviousDate(),
                 api_key, base_currency, currency
         );
-        return currencyClient.getRates().get(currency);
+        Currency currencyInfo = currencyRecord.get();
+        return currencyInfo.getRates().get(currency);
     }
     public ImageType compareRates(String currency){
         try {
@@ -63,8 +68,7 @@ public class CurrencyService{
             previous_rate = getPreviousRate(currency);
 
         }
-        catch (FeignException exception){
-            System.out.println(exception);
+        catch (FeignException | ExecutionException | InterruptedException exception){
             return ImageType.error;
         }
         if (latest_rate == null || previous_rate == null){
