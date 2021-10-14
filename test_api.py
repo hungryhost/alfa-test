@@ -4,6 +4,23 @@ import requests
 
 CURRENCIES = [
 	("AFAASDN", "Error"),
+	("USD", "US Dollar"),
+	("EUR", "Euro"),
+	("CHF", "Swiss Franc"),
+	("IQD", "Iraqi Dinar"),
+	("JMD", "Jamaican Dollar"),
+	("JOD", "Jordanian Dinar"),
+	("KES", "Kenyan Shilling"),
+	("PGK", "Kina"),
+	("LAK", "Kip"),
+	("KWD", "Kuwaiti Dinar"),
+	("MWK", "Kwacha"),
+	("AOA", "Kwanza"),
+	("MMK", "Kyat"),
+	("GEL", "Lari"),
+	("LVL", "Latvian Lats"),
+	("LBP", "Lebanese Pound"),
+	("ALL", "Lek"),
 	("AFN", "Afghani"),
 	("DZD", "Algerian Dinar"),
 	("ARS", "Argentine Peso"),
@@ -50,7 +67,7 @@ CURRENCIES = [
 	("EGP", "Egyptian Pound"),
 	("SVC", "El Salvador Colon"),
 	("ETB", "Ethiopian Birr"),
-	("EUR", "Euro"),
+
 	("FKP", "Falkland Islands Pound"),
 	("FJD", "Fiji Dollar"),
 	("HUF", "Forint"),
@@ -65,20 +82,7 @@ CURRENCIES = [
 	("ISK", "Iceland Krona"),
 	("INR", "Indian Rupee"),
 	("IRR", "Iranian Rial"),
-	("IQD", "Iraqi Dinar"),
-	("JMD", "Jamaican Dollar"),
-	("JOD", "Jordanian Dinar"),
-	("KES", "Kenyan Shilling"),
-	("PGK", "Kina"),
-	("LAK", "Kip"),
-	("KWD", "Kuwaiti Dinar"),
-	("MWK", "Kwacha"),
-	("AOA", "Kwanza"),
-	("MMK", "Kyat"),
-	("GEL", "Lari"),
-	("LVL", "Latvian Lats"),
-	("LBP", "Lebanese Pound"),
-	("ALL", "Lek"),
+
 	("HNL", "Lempira"),
 	("SLL", "Leone"),
 	("RON", "Leu"),
@@ -144,7 +148,7 @@ CURRENCIES = [
 	("SDG", "Sudanese Pound"),
 	("SRD", "Surinam Dollar"),
 	("SEK", "Swedish Krona"),
-	("CHF", "Swiss Franc"),
+
 	("SYP", "Syrian Pound"),
 	("BDT", "Taka"),
 	("WST", "Tala"),
@@ -155,7 +159,7 @@ CURRENCIES = [
 	("TND", "Tunisian Dinar"),
 	("TRY", "Turkish Lira"),
 	("AED", "UAE Dirham"),
-	("USD", "US Dollar"),
+
 	("UGX", "Uganda Shilling"),
 	("COU", "Unidad de Valor Real"),
 	("CLF", "Unidades de fomento"),
@@ -182,19 +186,22 @@ while i < len(CURRENCIES):
 		met_broke = True
 		print('#########################')
 		print(f'MET BROKE STATUS  FOR {CURRENCIES[i][0]}: ', r.text)
-		print('#########################')
+		print('WAIT 10 SEC.')
+
 	if r.json()['type'] == 'rich':
 		met_rich = True
 		print('#########################')
 		print(f'MET RICH STATUS FOR {CURRENCIES[i][0]}: ', r.text)
-		print('#########################')
+		print('WAIT 10 SEC.')
 	if r.json()['type'] == 'error':
 		print('#########################')
 		print(f'MET ERROR STATUS (1 ONE INTENTIONAL)  FOR {CURRENCIES[i][0]}: ', r.text)
-		print('#########################')
+		print('WAIT 10 SEC.')
 		met_error = True
 	if met_error and met_rich and met_broke:
+		print('#########################')
+		print('MET ALL POSSIBLE STATUSES. EXITING. ')
 		break
 	i += 1
-	sleep(5)
+	sleep(10)
 
