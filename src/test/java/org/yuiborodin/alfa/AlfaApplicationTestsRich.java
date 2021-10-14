@@ -1,14 +1,18 @@
 package org.yuiborodin.alfa;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.yuiborodin.alfa.currencies.CurrencyService;
 import org.yuiborodin.alfa.images.ImageService;
 import org.yuiborodin.alfa.utils.TypeUtils;
@@ -20,12 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.yuiborodin.alfa.utils.DateUtils.getPreviousDate;
 
 @SpringBootTest
-@RunWith(MockitoJUnitRunner.class)
+@ContextConfiguration
+@RunWith(SpringRunner.class)
+@ActiveProfiles("test")
 @TestPropertySource(properties = {
         "currency.base_currency=RUB",
         "currency.api_key=121",
-        "currency.base_url=http://127.0.0.1:8081/",
-        "images.base_url=http://127.0.0.1:8081/",
+        "currency.base_url=http://localhost:8081",
+        "images.base_url=http://localhost:8081",
         "images.api_key=121" })
 class AlfaApplicationTestsRich {
 
@@ -35,17 +41,17 @@ class AlfaApplicationTestsRich {
     @Autowired
     ImageService imageService;
 
-    WireMockServer wireMockServer = new WireMockServer(8081);
+    private static WireMockServer wireMockServer;
 
-    @BeforeClass
-    public void startServer() {
-
+    @BeforeAll
+    public static void startServer() {
+        wireMockServer = new WireMockServer(new WireMockConfiguration().port(8081));
         wireMockServer.stubFor(get(urlEqualTo("/api/latest.json"))
                 .withQueryParam("app_id", equalTo("121"))
                 .withQueryParam("base", equalTo("RUB"))
                 .withQueryParam("symbols", equalTo("USD"))
                 .willReturn(
-                        aResponse().withBody(
+                        aResponse().withStatus(200).withBody(
                                 " { 'disclaimer': 'Usage subject to terms: https://openexchangerates.org/terms', " +
                                         "'license': 'https://openexchangerates.org/license', " +
                                         "'timestamp': '1634090400', " +
@@ -76,6 +82,7 @@ class AlfaApplicationTestsRich {
                                 " { 'data': [ { 'images': { 'original': { 'url': 'testurlrich' } } } ] }"
                         )));
         wireMockServer.start();
+        WireMock.configureFor("localhost", 8081);
     }
 
     @AfterClass
@@ -100,8 +107,7 @@ class AlfaApplicationTestsRich {
         assertEquals(0.01345, currencyService.getPreviousRate());
         assertEquals(0.01345, currencyService.getPreviousRate());
         assertEquals("testurlrich", imageService.getImage(TypeUtils.ImageType.rich));
-        //System.out.println();
-        //System.out.println(currencyService.getPreviousRate());
+
     }
 
 }

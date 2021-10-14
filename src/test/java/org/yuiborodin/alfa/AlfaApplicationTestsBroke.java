@@ -1,36 +1,22 @@
 package org.yuiborodin.alfa;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockserver.integration.ClientAndServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
-import org.yuiborodin.alfa.currencies.Currency;
-import org.yuiborodin.alfa.currencies.CurrencyInterface;
 import org.yuiborodin.alfa.currencies.CurrencyService;
-import org.yuiborodin.alfa.images.ImageInterface;
 import org.yuiborodin.alfa.images.ImageService;
 import org.yuiborodin.alfa.utils.TypeUtils;
 
 import java.util.HashMap;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
-import static org.assertj.core.api.BDDAssumptions.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.yuiborodin.alfa.utils.DateUtils.getPreviousDate;
 
 @SpringBootTest
@@ -115,8 +101,7 @@ class AlfaApplicationTestsBroke {
 		assertEquals(0.01345, currencyService.getPreviousRate());
 		assertEquals(0.01345, currencyService.getPreviousRate());
 		assertEquals("testurlbroke", imageService.getImage(TypeUtils.ImageType.broke));
-		//System.out.println();
-		//System.out.println(currencyService.getPreviousRate());
+
 	}
 
 }

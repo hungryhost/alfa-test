@@ -1,6 +1,6 @@
 package org.yuiborodin.alfa.images;
 
-public class ImageClientData {
+public class ImageData {
     private String url;
 
     public String getUrl() {

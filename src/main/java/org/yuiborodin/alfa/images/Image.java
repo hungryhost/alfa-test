@@ -3,10 +3,10 @@ package org.yuiborodin.alfa.images;
 import java.util.HashMap;
 
 
-public class ImageClient {
+public class Image {
     private String id;
     private String url;
-    private HashMap<String, ImageClientData> images;
+    private HashMap<String, ImageData> images;
 
     public String getId() {
         return id;
@@ -24,7 +24,7 @@ public class ImageClient {
         this.url = url;
     }
 
-    public HashMap<String, ImageClientData> getImages() {
+    public HashMap<String, ImageData> getImages() {
         return images;
     }
 }

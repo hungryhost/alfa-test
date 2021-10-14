@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ImageInterface {
 
     @RequestMapping(method = RequestMethod.GET, value = "/v1/gifs/search")
-    ImageClientList getLatestRecord(
+    ImageList getLatestRecord(
             @RequestParam String api_key,
             @RequestParam String q,
             @RequestParam String offset,

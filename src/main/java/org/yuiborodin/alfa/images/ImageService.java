@@ -43,10 +43,10 @@ public class ImageService {
         } else if (imageType.equals(TypeUtils.ImageType.broke)) {
             this.type = "broke";
         } else return "fail";
-        ImageClientList imageClientList = newImageInterface.getLatestRecord(
+        ImageList imageList = newImageInterface.getLatestRecord(
                 api_key, type, String.valueOf(offset), limit, rating, lang
         );
-        HashMap<String, ImageClientData> data = imageClientList.getData().get(0).getImages();
+        HashMap<String, ImageData> data = imageList.getData().get(0).getImages();
         return data.get("original").getUrl();
     }
 }
