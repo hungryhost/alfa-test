@@ -1,7 +1,7 @@
 FROM gradle:7.2.0-jdk16 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon -x test
 
 FROM openjdk:17-jdk-alpine
 
