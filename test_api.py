@@ -190,11 +190,11 @@ while i < len(CURRENCIES):
 		print('#########################')
 	if r.json()['type'] == 'error':
 		print('#########################')
-		print('MET ERROR STATUS: ', r.text)
+		print('MET ERROR STATUS (1 ONE INTENTIONAL): ', r.text)
 		print('#########################')
 		met_error = True
 	if met_error and met_rich and met_broke:
 		break
 	i += 1
-	sleep(10)
+	sleep(5)
 
