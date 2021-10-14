@@ -181,16 +181,16 @@ while i < len(CURRENCIES):
 	if r.json()['type'] == 'broke':
 		met_broke = True
 		print('#########################')
-		print('MET BROKE STATUS: ', r.text)
+		print(f'MET BROKE STATUS  FOR {CURRENCIES[i][0]}: ', r.text)
 		print('#########################')
 	if r.json()['type'] == 'rich':
 		met_rich = True
 		print('#########################')
-		print('MET RICH STATUS: ', r.text)
+		print(f'MET RICH STATUS FOR {CURRENCIES[i][0]}: ', r.text)
 		print('#########################')
 	if r.json()['type'] == 'error':
 		print('#########################')
-		print('MET ERROR STATUS (1 ONE INTENTIONAL): ', r.text)
+		print(f'MET ERROR STATUS (1 ONE INTENTIONAL)  FOR {CURRENCIES[i][0]}: ', r.text)
 		print('#########################')
 		met_error = True
 	if met_error and met_rich and met_broke:
