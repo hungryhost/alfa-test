@@ -80,7 +80,7 @@ public class CurrencyService{
             }
             else return ImageType.broke;
         }
-        if (latest_rate <= previous_rate){
+        if (latest_rate >= previous_rate){
             return ImageType.broke;
         }
         else return ImageType.rich;
