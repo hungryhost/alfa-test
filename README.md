@@ -1,7 +1,7 @@
 # Сервис для получения информации о курсе валют (сравнение текущего и вчерашнего)
 
 
-### Задеплоен на https://projects.alfabank.yuryborodin.ru/api/v1/currencies/<ticker, напр. USD>/
+### Задеплоен на https://projects.gifcurr.yuryborodin.ru/api/v1/currencies/<ticker, напр. USD>/
 
 #### *Для тестирования можно воспользоваться скриптом test_api.py, который проходит по всем валютам и проверяет возможность нахождения broke, rich и error статусов (чтобы не делать это руками)*
 ```python3 -m test_api```
