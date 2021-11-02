@@ -15,7 +15,7 @@
 В данном проекте существует 1 endpoint для получения гифки в зависимости от
 изменения курса валют к базовой валюте (рублю).
 
-```https://projects.alfabank.yuryborodin.ru/api/v1/currencies/<ticker i.e. USD>/```
+```https://projects.gifcurr.yuryborodin.ru/api/v1/currencies/<ticker i.e. USD>/```
 
 Данный endpoint возвращает стандартный ответ:
 ```json
